@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- 保留原有meta标签 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Play Monster Survivors, an exciting online survival game!">
@@ -9,44 +10,135 @@
     <link rel="canonical" href="https://xiyang.space">
     <title>Monster Survivors - Play Online</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 添加模态框样式 -->
+    <style>
+        .modal-iframe {
+            width: 100%;
+            height: 80vh;
+            /* 限制最大尺寸 */
+            max-width: 1200px;
+            max-height: 800px;
+        }
+    </style>
 </head>
 <body class="bg-gray-100 text-gray-900">
     <header class="text-center py-6 bg-white shadow-md">
-        <h1 class="text-4xl font-bold text-blue-600">Monster Survivors</h1>
-        <p class="text-lg text-gray-700">Survive the monster invasion in this thrilling online game!</p>
+        <h1 class="text-4xl font-bold text-blue-600">Game Center</h1>
+        <p class="text-lg text-gray-700">Choose your favorite game to play!</p>
     </header>
 
-    <main class="max-w-4xl mx-auto p-4">
+    <main class="max-w-6xl mx-auto p-4">
+        <!-- 游戏网格布局 -->
         <section class="mb-8">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-2">Play Now</h2>
-            <div class="relative w-full h-96 bg-black">
-                <iframe src="https://cloud.onlinegames.io/games/2025/unity/monster-survivors/index-og.html"
-                        class="w-full h-full border-none">
-                </iframe>
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">All Games</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 游戏卡片1 -->
+                <div class="game-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                     data-game="https://cloud.onlinegames.io/games/2025/unity/monster-survivors/index-og.html">
+                    <img src="https://via.placeholder.com/400x200" alt="Monster Survivors" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">Monster Survivors</h3>
+                        <p class="text-gray-600 text-sm">Survival action game</p>
+                    </div>
+                </div>
+
+                <!-- 游戏卡片2 -->
+                <div class="game-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                     data-game="https://lo-th.github.io/3d.city/index.html">
+                    <img src="https://via.placeholder.com/400x200" alt="Space Shooter" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">Space Shooter</h3>
+                        <p class="text-gray-600 text-sm">Arcade space battle</p>
+                    </div>
+                </div>
+
+                 <!-- 游戏卡片3 -->
+                <div class="game-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                     data-game="https://mitallast.github.io/diablo-js/">
+                    <img src="https://via.placeholder.com/400x200" alt="暗黑破坏神 " 
+                         class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">暗黑破坏神</h3>
+                        <p class="text-gray-600 text-sm">Arcade space battle</p>
+                    </div>
+                </div>
+
+                 <!-- 游戏卡片2（新增示例） -->
+                <div class="game-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                     data-game="https://lo-th.github.io/3d.city/index.html">
+                    <img src="https://via.placeholder.com/400x200" alt="Space Shooter" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">Space Shooter</h3>
+                        <p class="text-gray-600 text-sm">Arcade space battle</p>
+                    </div>
+                </div>
+
+                <!-- 添加更多游戏卡片... -->
             </div>
         </section>
 
+        <!-- 保留关于游戏的内容 -->
         <section class="mb-8">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-2">About the Game</h2>
-            <p class="text-gray-700">
-                Monster Survivors is an intense survival game where you must battle hordes of monsters to stay alive.
-                Gather resources, upgrade your skills, and strategize to become the ultimate survivor.
-            </p>
-        </section>
-
-        <section>
-            <h2 class="text-2xl font-semibold text-gray-800 mb-2">Game Features</h2>
-            <ul class="list-disc list-inside text-gray-700">
-                <li>Fast-paced survival action</li>
-                <li>Multiple weapons and upgrades</li>
-                <li>Challenging enemies and levels</li>
-                <li>Playable on PC and mobile</li>
-            </ul>
+            <!-- 原有关于游戏的内容... -->
         </section>
     </main>
+
+    <!-- 模态弹窗 -->
+    <div id="gameModal" class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg w-full relative">
+            <button onclick="closeModal()" 
+                    class="absolute -top-4 -right-4 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600">
+                ×
+            </button>
+            <iframe id="gameFrame" class="modal-iframe rounded-lg border-none"></iframe>
+        </div>
+    </div>
 
     <footer class="text-center py-4 bg-white shadow-md mt-8">
         <p class="text-gray-600">&copy; 2025 xiyang.space. All rights reserved.</p>
     </footer>
+
+    <script>
+        // 游戏卡片点击事件
+        document.querySelectorAll('.game-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const gameUrl = card.dataset.game;
+                openModal(gameUrl);
+            });
+        });
+
+        // 打开模态框
+        function openModal(url) {
+            const modal = document.getElementById('gameModal');
+            const iframe = document.getElementById('gameFrame');
+            iframe.src = url;
+            modal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden'); // 禁止背景滚动
+        }
+
+        // 关闭模态框
+        function closeModal() {
+            const modal = document.getElementById('gameModal');
+            const iframe = document.getElementById('gameFrame');
+            iframe.src = '';
+            modal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        // 点击背景关闭
+        document.getElementById('gameModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('gameModal')) {
+                closeModal();
+            }
+        });
+
+        // ESC键关闭
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
 </body>
 </html>
