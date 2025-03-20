@@ -1,158 +1,436 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- 保留原有meta标签 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Play Monster Survivors, an exciting online survival game!">
-    <meta name="keywords" content="Monster Survivors, online game, survival game">
-    <meta name="author" content="xiyang.space">
-    <link rel="canonical" href="https://xiyang.space">
-    <title>Monster Survivors - Play Online</title>
+    <title>PlayHub - Free Online Games Collection</title>
+    <meta name="description" content="Enjoy our collection of free online games including Monster Survivors, Sudoku Challenge, Shadow Strike, and Cactus McCoy.">
+    <link rel="canonical" href="https://www.playhub-games.com">
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 添加模态框样式 -->
-    <style>
-        .modal-iframe {
-            width: 100%;
-            height: 80vh;
-            /* 限制最大尺寸 */
-            max-width: 1200px;
-            max-height: 800px;
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        apple: {
+                            blue: '#007AFF',
+                            green: '#34C759',
+                            indigo: '#5856D6',
+                            orange: '#FF9500',
+                            pink: '#FF2D55',
+                            purple: '#AF52DE',
+                            red: '#FF3B30',
+                            teal: '#5AC8FA',
+                            yellow: '#FFCC00',
+                            gray: {
+                                100: '#F2F2F7',
+                                200: '#E5E5EA',
+                                300: '#D1D1D6',
+                                400: '#C7C7CC',
+                                500: '#AEAEB2',
+                                600: '#8E8E93',
+                                700: '#636366',
+                                800: '#48484A',
+                                900: '#3A3A3C',
+                                950: '#1C1C1E',
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/css">
+        .game-container {
+            aspect-ratio: 16/9;
+            max-height: 600px;
+        }
+        
+        @media (max-width: 768px) {
+            .game-container {
+                aspect-ratio: 4/3;
+                max-height: 400px;
+            }
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-900">
-    <header class="text-center py-6 bg-white shadow-md">
-        <h1 class="text-4xl font-bold text-blue-600">Game Center</h1>
-        <p class="text-lg text-gray-700">Choose your favorite game to play!</p>
+<body class="bg-apple-gray-100 dark:bg-apple-gray-950 text-apple-gray-900 dark:text-white">
+    <header class="bg-apple-blue text-white py-6 shadow-lg">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl md:text-4xl font-bold text-center">PlayHub: Your Ultimate Gaming Destination</h1>
+            <p class="text-center mt-2 text-lg">Discover and play the best free online games instantly in your browser</p>
+        </div>
     </header>
 
-    <main class="max-w-6xl mx-auto p-4">
-        <!-- 游戏网格布局 -->
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4">All Games</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- 游戏卡片1 -->
-                <div class="game-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-                     data-game="https://cloud.onlinegames.io/games/2025/unity/monster-survivors/index-og.html">
-                    <img src="https://imgur.com/B8yiClN" alt="Monster Survivors" 
-                         class="w-full h-48 object-cover">
+    <main class="container mx-auto px-4 py-8">
+        <section class="mb-12">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6 text-apple-purple dark:text-apple-teal border-b-2 border-apple-purple dark:border-apple-teal pb-2">Featured Games</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Monster Survivors -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
                     <div class="p-4">
-                        <h3 class="font-bold text-lg mb-2">Monster Survivors</h3>
-                        <p class="text-gray-600 text-sm">Survival action game</p>
+                        <h2 class="text-xl font-bold text-apple-blue mb-2">Monster Survivors</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Survive waves of monsters in this action-packed adventure game!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://cloud.onlinegames.io/games/2025/unity/monster-survivors/index-og.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Monster Survivors is an exciting survival game where you must defeat endless waves of monsters. 
+                            Collect power-ups, upgrade your character, and see how long you can last against the horde!
+                        </p>
                     </div>
                 </div>
 
-                <!-- 游戏卡片2 -->
-                <div class="game-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-                     data-game="https://cloud.freezenova.com/sudoku.html">
-                    <img src="https://via.placeholder.com/400x200" alt="Sudoku" 
-                         class="w-full h-48 object-cover">
+                <!-- Sudoku Challenge -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
                     <div class="p-4">
-                        <h3 class="font-bold text-lg mb-2">Sudoku</h3>
-                        <p class="text-gray-600 text-sm">Arcade space battle</p>
+                        <h2 class="text-xl font-bold text-apple-green mb-2">Sudoku Challenge</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Test your logic skills with classic Sudoku puzzles!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://cloud.freezenova.com/sudoku.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Sudoku Challenge offers multiple difficulty levels for players of all skill levels. 
+                            Exercise your brain with this classic number puzzle game that improves logical thinking and concentration.
+                        </p>
                     </div>
                 </div>
-
-                 <!-- 游戏卡片3 -->
-                <div class="game-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-                     data-game="https://unblocked-games.s3.amazonaws.com/shadow-strike.html">
-                    <img src="https://via.placeholder.com/400x200" alt="Shadow Strike " 
-                         class="w-full h-48 object-cover">
-                    <div class="p-4">
-                        <h3 class="font-bold text-lg mb-2">Shadow Strike</h3>
-                        <p class="text-gray-600 text-sm">Arcade space battle</p>
-                    </div>
-                </div>
-
-                 <!-- 游戏卡片4（新增示例） -->
-                <div class="game-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-                     data-game="https://unblocked-games.s3.amazonaws.com/cactus-mccoy-1.html">
-                    <img src="https://via.placeholder.com/400x200" alt="Cactus McCoy 1" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-4">
-                        <h3 class="font-bold text-lg mb-2">Cactus McCoy 1</h3>
-                        <p class="text-gray-600 text-sm">Arcade space battle</p>
-                    </div>
-                </div>
-
-              <!-- 新增：无图游戏卡片（方案二） -->
-<div class="game-card bg-gradient-to-r from-purple-500 to-pink-500 relative group rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-     data-game="https://cloud.onlinegames.io/games/2025/unity/monster-survivors/index-og.html"> <!-- 修改data-game的值 -->
-    <!-- 动态色块 + 文字 -->
-    <div class="w-full h-48 flex items-center justify-center cursor-pointer">
-        <div class="text-white text-center">
-            <p class="text-4xl mb-2">🎮</p> <!-- Emoji图标可替换 -->
-            <h3 class="text-xl font-bold">Monster Survivors</h3> <!-- 修改标题 -->
-            <p class="text-sm opacity-90">点击开始</p> <!-- 修改副标题 -->
-        </div>
-    </div>
-    <!-- 悬停遮罩层 -->
-    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all"></div>
-</div>
-                <!-- 添加更多游戏卡片... -->
             </div>
         </section>
 
-        <!-- 保留关于游戏的内容 -->
-        <section class="mb-8">
-            <!-- 原有关于游戏的内容... -->
+        <section class="mb-12">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6 text-apple-orange dark:text-apple-yellow border-b-2 border-apple-orange dark:border-apple-yellow pb-2">More Games to Explore</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Shadow Strike -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-red mb-2">Shadow Strike</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Become a shadow warrior in this fast-paced action game!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://unblocked-games.s3.amazonaws.com/shadow-strike.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Shadow Strike puts you in the role of a stealthy ninja warrior. Use your skills to defeat enemies, 
+                            complete missions, and become the ultimate shadow warrior. Perfect for fans of action and stealth games.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Cactus McCoy -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-indigo mb-2">Cactus McCoy</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Join Cactus McCoy on his wild western adventure!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://unblocked-games.s3.amazonaws.com/cactus-mccoy-1.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Cactus McCoy is a thrilling platformer set in the Wild West. Help McCoy navigate through various levels, 
+                            collect treasures, and battle enemies in this action-packed adventure game with charming graphics and engaging gameplay.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6 text-apple-pink dark:text-apple-pink border-b-2 border-apple-pink pb-2">Why Choose PlayHub?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white dark:bg-apple-gray-900 p-6 rounded-xl shadow-md">
+                    <h2 class="text-xl font-bold text-apple-blue mb-3">Free to Play</h2>
+                    <p class="text-apple-gray-700 dark:text-apple-gray-300">All games on PlayHub are completely free to play. No hidden fees, no subscriptions, just pure gaming enjoyment.</p>
+                </div>
+                <div class="bg-white dark:bg-apple-gray-900 p-6 rounded-xl shadow-md">
+                    <h2 class="text-xl font-bold text-apple-green mb-3">No Downloads</h2>
+                    <p class="text-apple-gray-700 dark:text-apple-gray-300">Play instantly in your browser without downloading or installing anything. Just click and start playing!</p>
+                </div>
+                <div class="bg-white dark:bg-apple-gray-900 p-6 rounded-xl shadow-md">
+                    <h2 class="text-xl font-bold text-apple-orange mb-3">Mobile Friendly</h2>
+                    <p class="text-apple-gray-700 dark:text-apple-gray-300">Our games are optimized for both desktop and mobile devices, so you can play anytime, anywhere.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6 text-apple-green dark:text-apple-green border-b-2 border-apple-green dark:border-apple-green pb-2">Popular Games</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Monster Survivors -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-green mb-2">Monster Survivors</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Survive waves of monsters in this action-packed adventure!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://cloud.onlinegames.io/games/2025/unity/monster-survivors/index-og.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Monster Survivors is an exciting survival game where you must defeat endless waves of monsters. 
+                            Collect power-ups, upgrade your character, and see how long you can last against the horde!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Sudoku Challenge -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-pink mb-2">Sudoku Challenge</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Test your logic skills with classic Sudoku puzzles!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://cloud.freezenova.com/sudoku.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Sudoku Challenge offers multiple difficulty levels for players of all skill levels. 
+                            Exercise your brain with this classic number puzzle game that improves logical thinking and concentration.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Cookie Clicker Pro -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-blue mb-2">Cookie Clicker Pro</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Click your way to a cookie empire!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://cloud.freezenova.com/cookie-clicker-pro.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Start with a simple cookie and build your way to a massive cookie-producing empire. 
+                            Upgrade your production, unlock achievements, and become the ultimate cookie tycoon!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Basket Random Pro -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-orange mb-2">Basket Random Pro</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Test your basketball skills with random challenges!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://cloud.freezenova.com/basket-random-pro.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Face unique basketball challenges in this addictive sports game. Each level presents 
+                            a new random setup that will test your timing, accuracy, and strategic thinking.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Survival Karts -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-red mb-2">Survival Karts</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Race and survive in this thrilling kart adventure!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://cloud.freezenova.com/survival-karts.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Race against time and obstacles in this exciting kart survival game. Navigate through 
+                            challenging tracks, collect power-ups, and outlast your opponents to claim victory.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Checkout Frenzy -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-purple mb-2">Checkout Frenzy</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Manage a busy supermarket checkout!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://cloud.freezenova.com/checkout-frenzy.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Experience the rush of managing a busy supermarket checkout in this fast-paced time management game. 
+                            Scan items, handle payments, and keep customers happy as the lines grow longer!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Papa's Burgeria -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-teal mb-2">Papa's Burgeria</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Run your own burger restaurant!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://cloud.freezenova.com/papas-burgeria.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Take orders, grill patties, and build the perfect burger in this classic restaurant management game. 
+                            Satisfy your customers with perfectly crafted burgers to earn tips and upgrade your restaurant!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Axis Football League -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-indigo mb-2">Axis Football League</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Experience intense football action!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://cloud.freezenova.com/axis-football-league.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Lead your team to victory in this exciting football game. Choose your plays, execute perfect passes, 
+                            and score touchdowns to become the champion of the Axis Football League!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Mr.Mine -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-blue mb-2">Mr.Mine</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Dig deep, discover treasures, and build your mining empire!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://mrmine.com/game/" 
+                                title="Mr.Mine" 
+                                scrolling="no" 
+                                allow="autoplay; payment; fullscreen; microphone; clipboard-read; focus-without-user-activation *; screen-wake-lock; gamepad; clipboard-write 'self' https://mrmine.com" 
+                                webkitallowfullscreen="true" 
+                                mozallowfullscreen="true" 
+                                msallowfullscreen="true" 
+                                allowfullscreen="true" 
+                                allowfullscreen 
+                                loading="eager" 
+                                style="border: 0px; background-color: rgb(255, 255, 255); width: 100%; height: 100%;">
+                        </iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Mr.Mine is an idle mining game where you dig deeper, discover rare minerals, and build your mining empire. 
+                            Manage miners, upgrade equipment, and uncover the mysteries that lie beneath the surface.
+                        </p>
+                        <p class="text-xs text-apple-gray-500 mt-2">
+                            <a href="https://mrmine.com/" target="_blank" class="hover:underline">Mr.Mine</a> is Developed by <a href="https://playsaurus.com" target="_blank" class="hover:underline">Playsaurus</a> - an idle game development studio.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Poker Quest -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-purple mb-2">Poker Quest</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Blend poker strategy with RPG adventure in this unique card game!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://playsaurus.com/kongPokerQuest63/" 
+                                title="Poker Quest" 
+                                scrolling="no" 
+                                allow="autoplay; payment; fullscreen; microphone; clipboard-read; focus-without-user-activation *; screen-wake-lock; gamepad; clipboard-write 'self' https://playsaurus.com/kongPokerQuest56/" 
+                                webkitallowfullscreen="true" 
+                                mozallowfullscreen="true" 
+                                msallowfullscreen="true" 
+                                allowfullscreen="true" 
+                                allowfullscreen 
+                                loading="eager" 
+                                style="border: 0px; background-color: rgb(255, 255, 255); width: 100%; height: 100%;">
+                        </iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Poker Quest combines poker mechanics with RPG elements in an innovative card game. Use poker hands to defeat 
+                            enemies, collect treasures, and progress through a fantasy world filled with challenges and adventures.
+                        </p>
+                        <p class="text-xs text-apple-gray-500 mt-2">
+                            <a href="https://pokerquest.com/" target="_blank" class="hover:underline">Poker Quest</a> is Developed by <a href="https://playsaurus.com" target="_blank" class="hover:underline">Playsaurus</a> - an idle game development studio.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Fray Fight -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-red mb-2">Fray Fight</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Battle in intense arena combat with unique fighters!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://frayfight.com/game/" 
+                                title="Fray Fight" 
+                                scrolling="no" 
+                                allow="autoplay; payment; fullscreen; microphone; clipboard-read; focus-without-user-activation *; screen-wake-lock; gamepad; clipboard-write 'self' https://frayfight.com" 
+                                webkitallowfullscreen="true" 
+                                mozallowfullscreen="true" 
+                                msallowfullscreen="true" 
+                                allowfullscreen="true" 
+                                allowfullscreen 
+                                loading="eager" 
+                                style="border: 0px; background-color: rgb(255, 255, 255); width: 100%; height: 100%;">
+                        </iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Fray Fight is an action-packed arena combat game where you control unique fighters with special abilities. 
+                            Master different fighting styles, defeat opponents, and become the champion of the arena!
+                        </p>
+                        <p class="text-xs text-apple-gray-500 mt-2">
+                            <a href="https://frayfight.com/" target="_blank" class="hover:underline">Fray Fight</a> is Developed by <a href="https://playsaurus.com" target="_blank" class="hover:underline">Playsaurus</a> - an idle game development studio.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
 
-    <!-- 模态弹窗 -->
-    <div id="gameModal" class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-lg w-full relative">
-            <button onclick="closeModal()" 
-                    class="absolute -top-4 -right-4 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600">
-                ×
-            </button>
-            <iframe id="gameFrame" class="modal-iframe rounded-lg border-none"></iframe>
+    <footer class="bg-apple-gray-900 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h2 class="text-xl font-bold mb-2">PlayHub Games</h2>
+                    <p class="text-apple-gray-400">Your destination for free online gaming</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-apple-gray-400">&copy; 2023 PlayHub Games. All rights reserved.</p>
+                    <p class="text-apple-gray-500 text-sm mt-1">All games are property of their respective owners.</p>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <footer class="text-center py-4 bg-white shadow-md mt-8">
-        <p class="text-gray-600">&copy; 2025 xiyang.space. All rights reserved.</p>
     </footer>
-
-    <script>
-        // 游戏卡片点击事件
-        document.querySelectorAll('.game-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const gameUrl = card.dataset.game;
-                openModal(gameUrl);
-            });
-        });
-
-        // 打开模态框
-        function openModal(url) {
-            const modal = document.getElementById('gameModal');
-            const iframe = document.getElementById('gameFrame');
-            iframe.src = url;
-            modal.classList.remove('hidden');
-            document.body.classList.add('overflow-hidden'); // 禁止背景滚动
-        }
-
-        // 关闭模态框
-        function closeModal() {
-            const modal = document.getElementById('gameModal');
-            const iframe = document.getElementById('gameFrame');
-            iframe.src = '';
-            modal.classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-        }
-
-        // 点击背景关闭
-        document.getElementById('gameModal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('gameModal')) {
-                closeModal();
-            }
-        });
-
-        // ESC键关闭
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
-        });
-    </script>
 </body>
-</html>
+</html> 
