@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 保留原有meta标签 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Play Monster Survivors, an exciting online survival game!">
+    <meta name="keywords" content="Monster Survivors, online game, survival game">
+    <meta name="author" content="xiyang.space">
+    <link rel="canonical" href="https://xiyang.space">
+    <title>Monster Survivors - Play Online</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 添加模态框样式 -->
+    <style>
+        /* 优化模态框样式 */
+        #gameModal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* 调整模态框内容区域 */
+        #gameModal .bg-white {
+            width: 95%;
+            height: 90%;
+            max-width: 1400px;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        /* 调整iframe容器 */
+        .iframe-container {
+            flex: 1;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+        }
+        
+        /* 调整iframe样式 */
+        .modal-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #000;
+        }
+        
+        /* 模态框头部 */
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        /* 关闭按钮 */
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+        
+        .close-btn:hover {
+            color: #343a40;
+        }
+        
+        /* 添加游戏容器样式 */
+        .game-modal-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        /* 确保模态框内容居中 */
+        .modal-content {
+            width: 95%;
+            height: 95%;
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 添加全屏按钮样式 */
+        .fullscreen-btn {
+            position: absolute;
+            top: 10px;
+            right: 50px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        
+        /* 添加游戏控制栏 */
+        .game-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 16px;
+            background: #f0f0f0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .game-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .game-item {
+            width: 250px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .game-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .game-thumbnail {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .play-button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        .play-button:hover {
+            background-color: #45a049;
+        }
+        
+        /* 添加游戏卡片悬停效果 */
+        .game-card {
+            transition: all 0.3s ease;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-8px);
+        }
+        
+        /* 添加游戏标签样式 */
+        .game-tag {
+            display: inline-block;
+            background-color: #e2e8f0;
+            color: #4a5568;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-right: 4px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <header class="text-center py-6 bg-white shadow-md">
+        <h1 class="text-4xl font-bold text-blue-600">Game Center</h1>
+        <p class="text-lg text-gray-700">Choose your favorite game to play!</p>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-4">
+        <!-- 添加侧边栏导航 -->
+        <div class="flex">
+            <!-- 侧边栏 -->
+            <div class="hidden md:block w-64 bg-white shadow-md p-4 mr-4">
+                <h3 class="font-bold text-lg mb-4">游戏分类</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="flex items-center text-blue-600 hover:text-blue-800">
+                        <span class="mr-2">🎮</span> 全部游戏
+                    </a></li>
+                    <li><a href="#" class="flex items-center text-gray-700 hover:text-blue-600">
+                        <span class="mr-2">🏃</span> 动作游戏
+                    </a></li>
+                    <li><a href="#" class="flex items-center text-gray-700 hover:text-blue-600">
+                        <span class="mr-2">🧩</span> 益智游戏
+                    </a></li>
+                    <!-- 更多分类... -->
+                </ul>
+                
+                <h3 class="font-bold text-lg mt-6 mb-4">热门游戏</h3>
+                <div class="space-y-3">
+                    <a href="#" class="block hover:bg-gray-50 p-2 rounded">
+                        <img src="./thumbnails/monster-survivors.jpg" class="w-full h-20 object-cover rounded mb-1">
+                        <p class="text-sm font-medium">Monster Survivors</p>
+                    </a>
+                    <!-- 更多热门游戏... -->
+                </div>
+            </div>
+            
+            <!-- 主内容区 -->
+            <div class="flex-1">
+                <!-- 游戏分类导航 -->
+                <div class="mb-6 flex flex-wrap gap-2 justify-center">
+                    <button class="category-btn bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 active">全部</button>
+                    <button class="category-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-full hover:bg-gray-300">动作</button>
+                    <button class="category-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-full hover:bg-gray-300">益智</button>
+                    <button class="category-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-full hover:bg-gray-300">冒险</button>
+                    <button class="category-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-full hover:bg-gray-300">策略</button>
+                    <button class="category-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-full hover:bg-gray-300">赛车</button>
+                    <button class="category-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-full hover:bg-gray-300">射击</button>
+                    <button class="category-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-full hover:bg-gray-300">模拟</button>
+                    <button class="category-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-full hover:bg-gray-300">双人</button>
+                </div>
+                
+                <!-- 搜索框 -->
+                <div class="mb-6 max-w-md mx-auto">
+                    <div class="relative flex items-center">
+                        <input type="text" placeholder="搜索游戏..." class="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <button class="absolute right-2 bg-blue-500 text-white p-1 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 热门游戏 -->
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">热门游戏</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- 热门游戏卡片1 -->
+                        <div class="game-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow group"
+                             data-game="https://www.crazygames.com/game/monster-survivors">
+                            <div class="relative">
+                                <img src="./thumbnails/monster-survivors.jpg" alt="Monster Survivors" class="w-full h-48 object-cover">
+                                <div class="absolute top-2 right-2 bg-yellow-500 text-white text-xs px-2 py-1 rounded">热门</div>
+                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent h-16"></div>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg">Monster Survivors</h3>
+                                    <div class="flex">
+                                        <span class="text-yellow-500">★★★★</span><span class="text-gray-300">☆</span>
+                                    </div>
+                                </div>
+                                <div class="mb-2 flex flex-wrap gap-1">
+                                    <span class="game-tag">动作</span>
+                                    <span class="game-tag">生存</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mb-3">在怪物丛生的世界中生存，收集资源并击败敌人！</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs text-gray-500">游戏次数: 1,245</span>
+                                    <button class="play-now-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">开始游戏</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 游戏网格布局 -->
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">所有游戏</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- 游戏卡片1 -->
+                        <div class="game-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                             data-game="https://www.crazygames.com/game/monster-survivors">
+                            <img src="./thumbnails/monster-survivors.jpg" alt="Monster Survivors" 
+                                 class="w-full h-48 object-cover">
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg">Monster Survivors</h3>
+                                    <span class="text-yellow-500">★★★★☆</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="game-tag">动作</span>
+                                    <span class="game-tag">生存</span>
+                                </div>
+                                <p class="text-gray-600 text-sm">在怪物丛生的世界中生存，收集资源并击败敌人！</p>
+                            </div>
+                        </div>
+
+                        <!-- 游戏卡片2 -->
+                        <div class="game-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                             data-game="https://sudoku.com/">
+                            <img src="./thumbnails/sudoku.jpg" alt="Sudoku" 
+                                 class="w-full h-48 object-cover">
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg">数独挑战</h3>
+                                    <span class="text-yellow-500">★★★★★</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="game-tag">益智</span>
+                                    <span class="game-tag">数字</span>
+                                </div>
+                                <p class="text-gray-600 text-sm">经典数独游戏，锻炼你的逻辑思维能力！</p>
+                            </div>
+                        </div>
+
+                         <!-- 游戏卡片3 -->
+                        <div class="game-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                             data-game="https://www.crazygames.com/game/shadow-strike">
+                            <img src="./thumbnails/shadow-strike.jpg" alt="Shadow Strike" 
+                                 class="w-full h-48 object-cover">
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg">暗影突袭</h3>
+                                    <span class="text-yellow-500">★★★☆☆</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="game-tag">射击</span>
+                                    <span class="game-tag">动作</span>
+                                </div>
+                                <p class="text-gray-600 text-sm">成为精英特工，执行秘密任务，消灭敌人！</p>
+                            </div>
+                        </div>
+
+                         <!-- 游戏卡片4 -->
+                        <div class="game-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                             data-game="https://www.crazygames.com/game/cactus-mccoy">
+                            <img src="./thumbnails/cactus-mccoy.jpg" alt="Cactus McCoy 1" 
+                                 class="w-full h-48 object-cover">
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg">仙人掌麦考伊</h3>
+                                    <span class="text-yellow-500">★★★★☆</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="game-tag">冒险</span>
+                                    <span class="game-tag">平台</span>
+                                </div>
+                                <p class="text-gray-600 text-sm">控制仙人掌战士，在西部世界中冒险！</p>
+                            </div>
+                        </div>
+
+                        <!-- 游戏卡片5 -->
+                        <div class="game-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                             data-game="https://www.crazygames.com/game/space-blaze">
+                            <img src="./thumbnails/space-adventure.jpg" alt="太空冒险" 
+                                 class="w-full h-48 object-cover">
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg">太空冒险</h3>
+                                    <span class="text-yellow-500">★★★★☆</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="game-tag">冒险</span>
+                                    <span class="game-tag">科幻</span>
+                                </div>
+                                <p class="text-gray-600 text-sm">探索未知宇宙，与外星生物互动！</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 保留关于游戏的内容 -->
+                <section class="mb-8 bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">关于我们的游戏</h2>
+                    <p class="text-gray-700 mb-4">
+                        欢迎来到我们的游戏中心！这里收集了各种有趣的在线游戏，从动作冒险到益智解谜，应有尽有。
+                        所有游戏都经过精心挑选，确保给您带来最佳的游戏体验。
+                    </p>
+                    <p class="text-gray-700">
+                        我们定期更新游戏库，添加新的热门游戏。如果您有任何建议或反馈，请随时联系我们。
+                        祝您游戏愉快！
+                    </p>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- 模态弹窗 -->
+    <div id="gameModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl w-11/12 h-5/6 max-w-6xl relative">
+            <div class="modal-header">
+                <h3 class="font-bold">正在游戏</h3>
+                <div class="flex items-center">
+                    <button id="fullscreenBtn" class="mr-3 text-gray-600 hover:text-gray-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"/>
+                        </svg>
+                    </button>
+                    <button class="close-btn" onclick="closeModal()">&times;</button>
+                </div>
+            </div>
+            <div class="iframe-container">
+                <iframe id="gameFrame" class="modal-iframe" src="about:blank" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- 在页面底部添加一个管理员控制面板 -->
+    <div id="adminPanel" class="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4 hidden">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h3 class="font-bold">管理员控制面板</h3>
+            <div>
+                <button id="captureManualBtn" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">
+                    截取当前游戏画面
+                </button>
+                <button id="uploadThumbnailBtn" class="bg-green-500 text-white px-4 py-2 rounded">
+                    上传缩略图
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 改进页脚 -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">游戏中心</h3>
+                    <p class="text-gray-400 mb-4">提供各种有趣的在线游戏，从动作冒险到益智解谜，应有尽有。</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><span class="sr-only">微信</span>微信</a>
+                        <a href="#" class="text-gray-400 hover:text-white"><span class="sr-only">QQ</span>QQ</a>
+                        <a href="#" class="text-gray-400 hover:text-white"><span class="sr-only">微博</span>微博</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-4">快速链接</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">首页</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">热门游戏</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">新游戏</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">关于我们</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-4">联系我们</h3>
+                    <p class="text-gray-400">有任何问题或建议？请随时联系我们！</p>
+                    <a href="mailto:contact@example.com" class="text-blue-400 hover:text-blue-300 mt-2 inline-block">contact@example.com</a>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400">&copy; 2025 游戏中心. 保留所有权利.</p>
+                <div class="mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-white mx-2">隐私政策</a>
+                    <a href="#" class="text-gray-400 hover:text-white mx-2">使用条款</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 在页面加载完成后立即执行，确保模态框隐藏
+        window.addEventListener('load', function() {
+            console.log('页面加载完成，确保模态框隐藏');
+            
+            // 强制隐藏模态框
+            const gameModal = document.getElementById('gameModal');
+            if (gameModal) {
+                // 添加hidden类
+                gameModal.classList.add('hidden');
+                // 额外设置display样式
+                gameModal.style.display = 'none';
+                console.log('已强制隐藏模态框');
+            }
+            
+            // 清空iframe的src
+            const gameFrame = document.getElementById('gameFrame');
+            if (gameFrame) {
+                gameFrame.src = 'about:blank';
+                console.log('已清空iframe源');
+            }
+        });
+        
+        // 重写closeModal函数，确保正确关闭
+        function closeModal() {
+            console.log('关闭模态框');
+            const modal = document.getElementById('gameModal');
+            const iframe = document.getElementById('gameFrame');
+            
+            // 停止iframe内容加载
+            if (iframe) {
+                iframe.src = 'about:blank';
+            }
+            
+            // 隐藏模态框
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.style.display = 'none';
+            }
+            
+            document.body.classList.remove('overflow-hidden');
+        }
+        
+        // 更新为可用的游戏链接
+        const gameUrls = {
+            "monster-survivors": "https://unblocked-games.s3.amazonaws.com/monster-survivors.html",
+            "sudoku": "https://unblocked-games.s3.amazonaws.com/sudoku.html",
+            "shadow-strike": "https://unblocked-games.s3.amazonaws.com/shadow-strike.html",
+            "cactus-mccoy": "https://unblocked-games.s3.amazonaws.com/cactus-mccoy-1.html",
+            "space-adventure": "https://unblocked-games.s3.amazonaws.com/space-blaze.html"
+        };
+        
+        // 添加游戏卡片点击事件
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('正在为游戏卡片添加点击事件');
+            
+            // 为所有游戏卡片添加点击事件
+            const gameCards = document.querySelectorAll('.game-card');
+            console.log('找到游戏卡片数量:', gameCards.length);
+            
+            gameCards.forEach(card => {
+                // 移除可能存在的旧事件监听器
+                const newCard = card.cloneNode(true);
+                card.parentNode.replaceChild(newCard, card);
+                
+                // 获取游戏名称
+                const gameTitle = newCard.querySelector('h3').textContent.toLowerCase().trim();
+                console.log('游戏标题:', gameTitle);
+                
+                // 设置游戏URL
+                let gameUrl = '';
+                if (gameTitle.includes('monster') || gameTitle.includes('怪物')) {
+                    gameUrl = gameUrls["monster-survivors"];
+                } else if (gameTitle.includes('sudoku') || gameTitle.includes('数独')) {
+                    gameUrl = gameUrls["sudoku"];
+                } else if (gameTitle.includes('shadow') || gameTitle.includes('暗影')) {
+                    gameUrl = gameUrls["shadow-strike"];
+                } else if (gameTitle.includes('cactus') || gameTitle.includes('仙人掌')) {
+                    gameUrl = gameUrls["cactus-mccoy"];
+                } else if (gameTitle.includes('space') || gameTitle.includes('太空')) {
+                    gameUrl = gameUrls["space-adventure"];
+                }
+                
+                // 设置游戏URL属性
+                newCard.dataset.game = gameUrl;
+                console.log('设置游戏URL:', gameUrl);
+                
+                // 添加点击事件
+                newCard.addEventListener('click', function() {
+                    console.log('游戏卡片被点击:', gameUrl);
+                    if (gameUrl) {
+                        openModal(gameUrl);
+                    }
+                });
+                
+                // 为卡片中的按钮添加单独的点击事件
+                const playButton = newCard.querySelector('.play-now-btn');
+                if (playButton) {
+                    playButton.addEventListener('click', function(e) {
+                        e.stopPropagation(); // 阻止事件冒泡
+                        console.log('游戏按钮被点击:', gameUrl);
+                        if (gameUrl) {
+                            openModal(gameUrl);
+                        }
+                    });
+                }
+            });
+        });
+        
+        // 改进游戏加载体验
+        function openModal(url) {
+            console.log('打开游戏:', url);
+            
+            if (!url) {
+                console.error('无效的游戏URL');
+                return;
+            }
+            
+            const modal = document.getElementById('gameModal');
+            const iframe = document.getElementById('gameFrame');
+            
+            if (!modal || !iframe) {
+                console.error('找不到模态框或iframe元素');
+                return;
+            }
+            
+            // 显示模态框
+            modal.classList.remove('hidden');
+            modal.style.display = 'flex';
+            document.body.classList.add('overflow-hidden');
+            
+            // 创建更好的加载动画
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-80 z-10';
+            loadingDiv.innerHTML = `
+                <div class="w-64 bg-gray-200 rounded-full h-4 mb-4 overflow-hidden">
+                    <div id="loadingBar" class="bg-blue-500 h-4 rounded-full" style="width: 0%"></div>
+                </div>
+                <p class="text-white" id="loadingText">游戏加载中 (0%)...</p>
+            `;
+            loadingDiv.id = 'gameLoading';
+            
+            // 清除可能存在的旧加载提示
+            const oldLoading = document.getElementById('gameLoading');
+            if (oldLoading) oldLoading.remove();
+            
+            // 添加新的加载提示
+            const iframeContainer = document.querySelector('.iframe-container');
+            if (iframeContainer) {
+                iframeContainer.appendChild(loadingDiv);
+            }
+            
+            // 模拟加载进度
+            let progress = 0;
+            const loadingInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 90) {
+                    progress = 90; // 最多到90%，等待实际加载完成
+                }
+                
+                const loadingBar = document.getElementById('loadingBar');
+                const loadingText = document.getElementById('loadingText');
+                
+                if (loadingBar && loadingText) {
+                    loadingBar.style.width = progress + '%';
+                    loadingText.textContent = `游戏加载中 (${Math.round(progress)}%)...`;
+                }
+            }, 300);
+            
+            // 设置iframe源
+            iframe.src = url;
+            
+            // 当iframe加载完成后移除加载提示
+            iframe.onload = function() {
+                console.log('游戏加载完成:', url);
+                clearInterval(loadingInterval);
+                
+                // 完成进度条
+                const loadingBar = document.getElementById('loadingBar');
+                const loadingText = document.getElementById('loadingText');
+                
+                if (loadingBar && loadingText) {
+                    loadingBar.style.width = '100%';
+                    loadingText.textContent = '游戏加载完成!';
+                }
+                
+                // 延迟移除加载提示，让用户看到100%
+                setTimeout(() => {
+                    const loadingDiv = document.getElementById('gameLoading');
+                    if (loadingDiv) loadingDiv.remove();
+                }, 500);
+            };
+        }
+
+        // 使用MutationObserver监听DOM变化，确保在元素出现时立即修复缩略图
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('设置MutationObserver监听DOM变化');
+            
+            // 创建一个观察器实例
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    // 检查是否有新节点添加
+                    if (mutation.addedNodes.length) {
+                        // 查找所有游戏卡片
+                        document.querySelectorAll('.game-card').forEach(function(card) {
+                            const title = card.querySelector('h3')?.textContent || '';
+                            const img = card.querySelector('img');
+                            
+                            if (!img) return;
+                            
+                            // 根据标题设置正确的图片URL
+                            if (title.includes('暗影突袭')) {
+                                // 使用data-src属性存储原始URL
+                                if (!img.dataset.originalSrc) {
+                                    img.dataset.originalSrc = img.src;
+                                }
+                                // 设置新的src
+                                img.src = 'https://img.gamedistribution.com/d7b4c3e5f4e9415fb0ae1c1a202e02e1-512x384.jpeg';
+                                console.log('已设置暗影突袭缩略图:', img.src);
+                            } 
+                            else if (title.includes('仙人掌麦考伊')) {
+                                if (!img.dataset.originalSrc) {
+                                    img.dataset.originalSrc = img.src;
+                                }
+                                img.src = 'https://img.gamedistribution.com/63abbece5c9d4a1e98c2f5c107292d5a-512x384.jpeg';
+                                console.log('已设置仙人掌麦考伊缩略图:', img.src);
+                            }
+                            else if (title.includes('太空冒险')) {
+                                if (!img.dataset.originalSrc) {
+                                    img.dataset.originalSrc = img.src;
+                                }
+                                img.src = 'https://img.gamedistribution.com/d9c0a4d2e4554631b9a2c3c7f1acb4f0-512x384.jpeg';
+                                console.log('已设置太空冒险缩略图:', img.src);
+                            }
+                        });
+                    }
+                });
+            });
+            
+            // 配置观察选项
+            const config = { childList: true, subtree: true };
+            
+            // 开始观察document.body的变化
+            observer.observe(document.body, config);
+            
+            // 立即检查现有的游戏卡片
+            document.querySelectorAll('.game-card').forEach(function(card) {
+                const title = card.querySelector('h3')?.textContent || '';
+                const img = card.querySelector('img');
+                
+                if (!img) return;
+                
+                console.log('检查游戏卡片:', title);
+                
+                // 直接替换图片URL
+                if (title.includes('暗影突袭')) {
+                    img.src = 'https://img.gamedistribution.com/d7b4c3e5f4e9415fb0ae1c1a202e02e1-512x384.jpeg';
+                    console.log('已设置暗影突袭缩略图');
+                    
+                    // 添加加载事件监听
+                    img.onload = function() { console.log('暗影突袭缩略图加载成功'); };
+                    img.onerror = function() { console.error('暗影突袭缩略图加载失败'); };
+                } 
+                else if (title.includes('仙人掌麦考伊')) {
+                    img.src = 'https://img.gamedistribution.com/63abbece5c9d4a1e98c2f5c107292d5a-512x384.jpeg';
+                    console.log('已设置仙人掌麦考伊缩略图');
+                    
+                    // 添加加载事件监听
+                    img.onload = function() { console.log('仙人掌麦考伊缩略图加载成功'); };
+                    img.onerror = function() { console.error('仙人掌麦考伊缩略图加载失败'); };
+                }
+            });
+        });
+        
+        // 备用方案：直接修改HTML
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                // 查找所有img标签
+                document.querySelectorAll('img').forEach(function(img) {
+                    // 检查alt文本
+                    if (img.alt && (img.alt.includes('Shadow Strike') || img.alt.includes('暗影突袭'))) {
+                        img.src = 'https://img.gamedistribution.com/d7b4c3e5f4e9415fb0ae1c1a202e02e1-512x384.jpeg';
+                        console.log('通过alt文本设置暗影突袭缩略图');
+                    }
+                    else if (img.alt && (img.alt.includes('Cactus McCoy') || img.alt.includes('仙人掌麦考伊'))) {
+                        img.src = 'https://img.gamedistribution.com/63abbece5c9d4a1e98c2f5c107292d5a-512x384.jpeg';
+                        console.log('通过alt文本设置仙人掌麦考伊缩略图');
+                    }
+                    
+                    // 检查是否图片加载失败
+                    if (!img.complete || img.naturalHeight === 0) {
+                        // 尝试从父元素找到游戏标题
+                        const card = img.closest('.game-card');
+                        if (card) {
+                            const title = card.querySelector('h3')?.textContent || '';
+                            if (title.includes('暗影')) {
+                                img.src = 'https://img.gamedistribution.com/d7b4c3e5f4e9415fb0ae1c1a202e02e1-512x384.jpeg';
+                            } else if (title.includes('仙人掌')) {
+                                img.src = 'https://img.gamedistribution.com/63abbece5c9d4a1e98c2f5c107292d5a-512x384.jpeg';
+                            }
+                        }
+                    }
+                });
+            }, 1000); // 等待1秒确保页面完全加载
+        });
+
+        // 直接修改游戏卡片的HTML结构
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('直接修改游戏卡片HTML结构');
+            
+            // 获取所有游戏卡片
+            const gameCards = document.querySelectorAll('.game-card');
+            
+            // 遍历所有游戏卡片
+            gameCards.forEach(card => {
+                const title = card.querySelector('h3')?.textContent || '';
+                
+                // 根据游戏标题创建新的图片元素
+                let imgSrc = '';
+                if (title.includes('Monster') || title.includes('怪物')) {
+                    imgSrc = 'thumbnails/monster-survivors.jpg';
+                } 
+                else if (title.includes('数独')) {
+                    imgSrc = 'thumbnails/Sudoku.jpg';
+                }
+                else if (title.includes('暗影')) {
+                    imgSrc = 'thumbnails/Shadow Strike.jpg';
+                }
+                else if (title.includes('仙人掌')) {
+                    imgSrc = 'thumbnails/Cactus McCoy1.jpg';
+                }
+                else if (title.includes('太空')) {
+                    // 如果有太空冒险的缩略图
+                    imgSrc = 'thumbnails/space-adventure.jpg';
+                }
+                
+                if (imgSrc) {
+                    // 找到图片容器
+                    const imgContainer = card.querySelector('.relative');
+                    if (imgContainer) {
+                        // 移除旧的图片
+                        const oldImg = imgContainer.querySelector('img');
+                        if (oldImg) {
+                            oldImg.remove();
+                        }
+                        
+                        // 创建新的图片元素
+                        const newImg = document.createElement('img');
+                        newImg.src = imgSrc;
+                        newImg.alt = title;
+                        newImg.className = 'w-full h-48 object-cover rounded-t-lg';
+                        
+                        // 添加错误处理
+                        newImg.onerror = function() {
+                            console.error(`无法加载图片: ${imgSrc}`);
+                            // 使用备用远程图片
+                            if (title.includes('暗影')) {
+                                this.src = 'https://img.gamedistribution.com/d7b4c3e5f4e9415fb0ae1c1a202e02e1-512x384.jpeg';
+                            } 
+                            else if (title.includes('仙人掌')) {
+                                this.src = 'https://img.gamedistribution.com/63abbece5c9d4a1e98c2f5c107292d5a-512x384.jpeg';
+                            }
+                            else if (title.includes('怪物') || title.includes('Monster')) {
+                                this.src = 'https://img.gamedistribution.com/c84a08e3a72d4dc9b675b81af732e8e5-512x384.jpeg';
+                            }
+                            else if (title.includes('数独')) {
+                                this.src = 'https://img.gamedistribution.com/2e44fb86fd2e4dd3b53f0d8aa7842ace-512x384.jpeg';
+                            }
+                        };
+                        
+                        // 将新图片添加到容器的开头
+                        imgContainer.insertBefore(newImg, imgContainer.firstChild);
+                        
+                        console.log(`已替换 ${title} 的缩略图为: ${imgSrc}`);
+                    }
+                }
+            });
+        });
+
+        // 游戏收藏功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化收藏列表
+            let favorites = JSON.parse(localStorage.getItem('gamesFavorites')) || [];
+            
+            // 为每个游戏卡片添加收藏按钮
+            document.querySelectorAll('.game-card').forEach(card => {
+                const gameTitle = card.querySelector('h3').textContent;
+                const cardHeader = card.querySelector('.p-4');
+                
+                // 创建收藏按钮
+                const favBtn = document.createElement('button');
+                favBtn.className = 'absolute top-2 right-2 bg-white bg-opacity-70 rounded-full p-1 hover:bg-opacity-100 transition-all z-10';
+                favBtn.innerHTML = favorites.includes(gameTitle) ? 
+                    '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>' :
+                    '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>';
+                
+                // 添加收藏事件
+                favBtn.addEventListener('click', function(e) {
+                    e.stopPropagation(); // 阻止事件冒泡
+                    
+                    if (favorites.includes(gameTitle)) {
+                        // 移除收藏
+                        favorites = favorites.filter(title => title !== gameTitle);
+                        this.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>';
+                    } else {
+                        // 添加收藏
+                        favorites.push(gameTitle);
+                        this.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>';
+                    }
+                    
+                    // 保存到本地存储
+                    localStorage.setItem('gamesFavorites', JSON.stringify(favorites));
+                });
+                
+                // 添加到卡片
+                card.querySelector('.relative').appendChild(favBtn);
+            });
+            
+            // 添加收藏游戏分类
+            const categoryBtns = document.querySelector('.category-btn').parentNode;
+            const favBtn = document.createElement('button');
+            favBtn.className = 'category-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-full hover:bg-gray-300';
+            favBtn.textContent = '我的收藏';
+            favBtn.addEventListener('click', function() {
+                // 切换分类按钮状态
+                document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('bg-blue-500', 'text-white'));
+                document.querySelectorAll('.category-btn').forEach(btn => btn.classList.add('bg-gray-200', 'text-gray-800'));
+                this.classList.remove('bg-gray-200', 'text-gray-800');
+                this.classList.add('bg-blue-500', 'text-white');
+                
+                // 过滤游戏卡片
+                document.querySelectorAll('.game-card').forEach(card => {
+                    const gameTitle = card.querySelector('h3').textContent;
+                    if (favorites.includes(gameTitle)) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // 搜索功能实现
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.querySelector('input[placeholder="搜索游戏..."]');
+            const searchButton = searchInput.nextElementSibling;
+            
+            function performSearch() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                
+                if (searchTerm === '') {
+                    // 如果搜索词为空，显示所有游戏
+                    document.querySelectorAll('.game-card').forEach(card => {
+                        card.style.display = '';
+                    });
+                    return;
+                }
+                
+                // 搜索游戏
+                document.querySelectorAll('.game-card').forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const description = card.querySelector('p').textContent.toLowerCase();
+                    const tags = Array.from(card.querySelectorAll('.game-tag')).map(tag => tag.textContent.toLowerCase());
+                    
+                    // 如果标题、描述或标签包含搜索词，显示游戏卡片
+                    if (title.includes(searchTerm) || description.includes(searchTerm) || tags.some(tag => tag.includes(searchTerm))) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // 切换分类按钮状态
+                document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('bg-blue-500', 'text-white'));
+                document.querySelectorAll('.category-btn').forEach(btn => btn.classList.add('bg-gray-200', 'text-gray-800'));
+            }
+            
+            // 添加搜索按钮点击事件
+            searchButton.addEventListener('click', performSearch);
+            
+            // 添加回车键搜索
+            searchInput.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+        });
+
+        // 分类功能实现
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为所有分类按钮添加点击事件
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // 如果已经是激活状态，不做任何操作
+                    if (this.classList.contains('bg-blue-500')) return;
+                    
+                    // 切换分类按钮状态
+                    document.querySelectorAll('.category-btn').forEach(btn => {
+                        btn.classList.remove('bg-blue-500', 'text-white');
+                        btn.classList.add('bg-gray-200', 'text-gray-800');
+                    });
+                    
+                    this.classList.remove('bg-gray-200', 'text-gray-800');
+                    this.classList.add('bg-blue-500', 'text-white');
+                    
+                    const category = this.textContent.trim().toLowerCase();
+                    
+                    // 如果是"全部"分类，显示所有游戏
+                    if (category === '全部') {
+                        document.querySelectorAll('.game-card').forEach(card => {
+                            card.style.display = '';
+                        });
+                        return;
+                    }
+                    
+                    // 过滤游戏卡片
+                    document.querySelectorAll('.game-card').forEach(card => {
+                        const tags = Array.from(card.querySelectorAll('.game-tag')).map(tag => tag.textContent.toLowerCase());
+                        
+                        if (tags.includes(category)) {
+                            card.style.display = '';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+
+        // 游戏评分系统
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化评分
+            let ratings = JSON.parse(localStorage.getItem('gameRatings')) || {};
+            
+            // 为每个游戏卡片添加可交互的评分
+            document.querySelectorAll('.game-card').forEach(card => {
+                const gameTitle = card.querySelector('h3').textContent;
+                const ratingContainer = card.querySelector('.text-yellow-500').parentNode;
+                
+                // 清空现有评分
+                ratingContainer.innerHTML = '';
+                
+                // 创建交互式评分
+                const ratingDiv = document.createElement('div');
+                ratingDiv.className = 'flex items-center';
+                
+                // 添加5个星星
+                for (let i = 1; i <= 5; i++) {
+                    const star = document.createElement('span');
+                    star.className = 'cursor-pointer transition-colors';
+                    star.innerHTML = (ratings[gameTitle] && i <= ratings[gameTitle]) ? 
+                        '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>' :
+                        '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>';
+                    
+                    // 添加评分事件
+                    star.addEventListener('click', function(e) {
+                        e.stopPropagation(); // 阻止事件冒泡
+                        
+                        // 更新评分
+                        ratings[gameTitle] = i;
+                        localStorage.setItem('gameRatings', JSON.stringify(ratings));
+                        
+                        // 更新星星显示
+                        const stars = this.parentNode.querySelectorAll('span');
+                        stars.forEach((s, index) => {
+                            if (index < i) {
+                                s.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>';
+                            } else {
+                                s.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>';
+                            }
+                        });
+                    });
+                    
+                    ratingDiv.appendChild(star);
+                }
+                
+                ratingContainer.appendChild(ratingDiv);
+            });
+        });
+
+        // 游戏推荐系统
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取用户游戏历史
+            let gameHistory = JSON.parse(localStorage.getItem('gameHistory')) || [];
+            
+            // 添加游戏推荐部分
+            const mainContent = document.querySelector('main .flex-1');
+            
+            // 创建推荐游戏部分
+            function createRecommendations() {
+                // 如果没有游戏历史，不显示推荐
+                if (gameHistory.length === 0) return;
+                
+                // 获取所有游戏标签
+                const allTags = {};
+                document.querySelectorAll('.game-card').forEach(card => {
+                    const tags = Array.from(card.querySelectorAll('.game-tag')).map(tag => tag.textContent.toLowerCase());
+                    const title = card.querySelector('h3').textContent;
+                    
+                    tags.forEach(tag => {
+                        if (!allTags[tag]) allTags[tag] = [];
+                        allTags[tag].push(title);
+                    });
+                });
+                
+                // 根据历史记录找出用户喜欢的标签
+                const tagCounts = {};
+                gameHistory.forEach(game => {
+                    const card = Array.from(document.querySelectorAll('.game-card')).find(card => 
+                        card.querySelector('h3').textContent === game
+                    );
+                    
+                    if (card) {
+                        const tags = Array.from(card.querySelectorAll('.game-tag')).map(tag => tag.textContent.toLowerCase());
+                        tags.forEach(tag => {
+                            tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+                        });
+                    }
+                });
+                
+                // 找出最受欢迎的标签
+                const popularTags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a]).slice(0, 2);
+                
+                // 根据标签推荐游戏
+                let recommendedGames = [];
+                popularTags.forEach(tag => {
+                    if (allTags[tag]) {
+                        recommendedGames = [...recommendedGames, ...allTags[tag]];
+                    }
+                });
+                
+                // 去重并排除已玩过的游戏
+                recommendedGames = [...new Set(recommendedGames)].filter(game => !gameHistory.includes(game));
+                
+                // 如果有推荐游戏，创建推荐部分
+                if (recommendedGames.length > 0) {
+                    const recommendSection = document.createElement('section');
+                    recommendSection.className = 'mb-8';
+                    recommendSection.innerHTML = `
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-4">为您推荐</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="recommendedGames"></div>
+                    `;
+                    
+                    // 插入到热门游戏之后
+                    const hotGamesSection = document.querySelector('section');
+                    hotGamesSection.parentNode.insertBefore(recommendSection, hotGamesSection.nextSibling);
+                    
+                    // 添加推荐游戏
+                    const recommendedContainer = document.getElementById('recommendedGames');
+                    recommendedGames.slice(0, 3).forEach(game => {
+                        const originalCard = Array.from(document.querySelectorAll('.game-card')).find(card => 
+                            card.querySelector('h3').textContent === game
+                        );
+                        
+                        if (originalCard) {
+                            const clone = originalCard.cloneNode(true);
+                            recommendedContainer.appendChild(clone);
+                        }
+                    });
+                }
+            }
+            
+            // 修改openModal函数，记录游戏历史
+            const originalOpenModal = window.openModal;
+            window.openModal = function(url) {
+                // 调用原始函数
+                originalOpenModal(url);
+                
+                // 记录游戏历史
+                const gameCards = document.querySelectorAll('.game-card');
+                for (const card of gameCards) {
+                    if (card.dataset.game === url) {
+                        const gameTitle = card.querySelector('h3').textContent;
+                        
+                        // 添加到历史记录
+                        if (!gameHistory.includes(gameTitle)) {
+                            gameHistory.push(gameTitle);
+                            // 只保留最近10个游戏
+                            if (gameHistory.length > 10) {
+                                gameHistory.shift();
+                            }
+                            localStorage.setItem('gameHistory', JSON.stringify(gameHistory));
+                        }
+                        
+                        break;
+                    }
+                }
+            };
+            
+            // 创建推荐
+            createRecommendations();
+        });
+
+        // 定义本地缩略图路径映射
+        const localThumbnails = {
+            "monster-survivors": "thumbnails/monster-survivors.jpg",
+            "sudoku": "thumbnails/Sudoku.jpg",
+            "shadow-strike": "thumbnails/Shadow Strike.jpg",
+            "cactus-mccoy": "thumbnails/Cactus McCoy1.jpg"
+        };
+        
+        // 在页面加载完成后更新缩略图
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('更新游戏缩略图为本地路径');
+            
+            // 获取所有游戏卡片
+            document.querySelectorAll('.game-card').forEach(card => {
+                // 获取游戏标题
+                const title = card.querySelector('h3')?.textContent || '';
+                // 获取图片元素
+                const img = card.querySelector('img');
+                
+                if (!img) return;
+                
+                // 根据标题设置正确的本地图片路径
+                if (title.includes('怪物幸存者') || title.includes('Monster Survivors')) {
+                    img.src = localThumbnails["monster-survivors"];
+                    console.log('已设置Monster Survivors本地缩略图');
+                } 
+                else if (title.includes('数独') || title.includes('Sudoku')) {
+                    img.src = localThumbnails["sudoku"];
+                    console.log('已设置Sudoku本地缩略图');
+                }
+                else if (title.includes('暗影突袭') || title.includes('Shadow Strike')) {
+                    img.src = localThumbnails["shadow-strike"];
+                    console.log('已设置Shadow Strike本地缩略图');
+                }
+                else if (title.includes('仙人掌麦考伊') || title.includes('Cactus McCoy')) {
+                    img.src = localThumbnails["cactus-mccoy"];
+                    console.log('已设置Cactus McCoy本地缩略图');
+                }
+                
+                // 添加错误处理，如果本地图片加载失败，回退到远程图片
+                img.onerror = function() {
+                    console.log(`本地缩略图加载失败: ${title}`);
+                    
+                    // 根据游戏标题设置备用远程缩略图
+                    if (title.includes('暗影')) {
+                        this.src = 'https://img.gamedistribution.com/d7b4c3e5f4e9415fb0ae1c1a202e02e1-512x384.jpeg';
+                    } 
+                    else if (title.includes('仙人掌')) {
+                        this.src = 'https://img.gamedistribution.com/63abbece5c9d4a1e98c2f5c107292d5a-512x384.jpeg';
+                    }
+                    else if (title.includes('怪物') || title.includes('Monster')) {
+                        this.src = 'https://img.gamedistribution.com/c84a08e3a72d4dc9b675b81af732e8e5-512x384.jpeg';
+                    }
+                    else if (title.includes('数独')) {
+                        this.src = 'https://img.gamedistribution.com/2e44fb86fd2e4dd3b53f0d8aa7842ace-512x384.jpeg';
+                    }
+                };
+            });
+        });
+
+        // 直接在HTML中设置正确的图片路径
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('直接设置游戏缩略图');
+            
+            // 获取所有游戏卡片
+            const gameCards = document.querySelectorAll('.game-card');
+            
+            // 遍历所有游戏卡片
+            gameCards.forEach(card => {
+                const title = card.querySelector('h3')?.textContent || '';
+                const img = card.querySelector('img');
+                
+                if (!img) return;
+                
+                // 根据游戏标题设置正确的图片路径
+                if (title === 'Monster Survivors' || title.includes('怪物')) {
+                    // 直接设置绝对路径
+                    img.src = './thumbnails/monster-survivors.jpg';
+                    console.log('设置Monster Survivors缩略图:', img.src);
+                } 
+                else if (title === '数独挑战' || title.includes('数独')) {
+                    img.src = './thumbnails/Sudoku.jpg';
+                    console.log('设置数独缩略图:', img.src);
+                }
+                else if (title === '暗影突袭' || title.includes('暗影')) {
+                    img.src = './thumbnails/Shadow Strike.jpg';
+                    console.log('设置暗影突袭缩略图:', img.src);
+                }
+                else if (title === '仙人掌麦考伊' || title.includes('仙人掌')) {
+                    img.src = './thumbnails/Cactus McCoy1.jpg';
+                    console.log('设置仙人掌麦考伊缩略图:', img.src);
+                }
+                else if (title === '太空冒险' || title.includes('太空')) {
+                    // 如果有太空冒险的缩略图，也设置一下
+                    img.src = './thumbnails/space-adventure.jpg';
+                    console.log('设置太空冒险缩略图:', img.src);
+                }
+                
+                // 添加图片加载错误处理
+                img.onerror = function() {
+                    console.error(`缩略图加载失败: ${title}, 路径: ${this.src}`);
+                    
+                    // 尝试不同的路径格式
+                    if (this.src.includes('thumbnails/')) {
+                        // 尝试直接使用文件名
+                        if (title.includes('怪物') || title.includes('Monster')) {
+                            this.src = 'monster-survivors.jpg';
+                        } 
+                        else if (title.includes('数独')) {
+                            this.src = 'Sudoku.jpg';
+                        }
+                        else if (title.includes('暗影')) {
+                            this.src = 'Shadow Strike.jpg';
+                        }
+                        else if (title.includes('仙人掌')) {
+                            this.src = 'Cactus McCoy1.jpg';
+                        }
+                        
+                        // 如果仍然失败，使用远程图片
+                        this.onerror = function() {
+                            if (title.includes('暗影')) {
+                                this.src = 'https://img.gamedistribution.com/d7b4c3e5f4e9415fb0ae1c1a202e02e1-512x384.jpeg';
+                            } 
+                            else if (title.includes('仙人掌')) {
+                                this.src = 'https://img.gamedistribution.com/63abbece5c9d4a1e98c2f5c107292d5a-512x384.jpeg';
+                            }
+                            else if (title.includes('怪物') || title.includes('Monster')) {
+                                this.src = 'https://img.gamedistribution.com/c84a08e3a72d4dc9b675b81af732e8e5-512x384.jpeg';
+                            }
+                            else if (title.includes('数独')) {
+                                this.src = 'https://img.gamedistribution.com/2e44fb86fd2e4dd3b53f0d8aa7842ace-512x384.jpeg';
+                            }
+                        };
+                    }
+                };
+            });
+        });
+
+        // 广告拦截和处理函数
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('初始化广告拦截系统');
+            
+            // 1. iframe沙盒属性增强
+            function enhanceIframeSecurity() {
+                const gameFrame = document.getElementById('gameFrame');
+                if (gameFrame) {
+                    // 添加沙盒属性，限制iframe内容的能力
+                    gameFrame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups allow-forms');
+                    
+                    // 添加CSP策略
+                    gameFrame.setAttribute('csp', "default-src 'self'; script-src 'self' 'unsafe-inline'; frame-src 'self'");
+                    
+                    console.log('已增强iframe安全性');
+                }
+            }
+            
+            // 2. 广告元素移除函数
+            function setupAdRemoval() {
+                const gameFrame = document.getElementById('gameFrame');
+                if (!gameFrame) return;
+                
+                // 当iframe加载完成后
+                gameFrame.addEventListener('load', function() {
+                    try {
+                        // 尝试访问iframe内容
+                        const iframeDoc = gameFrame.contentDocument || gameFrame.contentWindow.document;
+                        
+                        // 定义要移除的广告元素选择器
+                        const adSelectors = [
+                            '.ad-container', '.advertisement', '.banner-ad', 
+                            '[id*="ad-"]', '[class*="ad-"]', '[id*="banner"]',
+                            'iframe[src*="ads"]', 'iframe[src*="doubleclick"]',
+                            'iframe[src*="googlead"]', 'div[id*="google_ads"]',
+                            'ins.adsbygoogle'
+                        ];
+                        
+                        // 移除匹配的元素
+                        adSelectors.forEach(selector => {
+                            const adElements = iframeDoc.querySelectorAll(selector);
+                            adElements.forEach(el => {
+                                el.style.display = 'none';
+                                console.log('已隐藏广告元素:', selector);
+                            });
+                        });
+                        
+                        // 监听动态添加的广告
+                        const observer = new MutationObserver(function(mutations) {
+                            mutations.forEach(function(mutation) {
+                                if (mutation.addedNodes.length) {
+                                    adSelectors.forEach(selector => {
+                                        const newAds = iframeDoc.querySelectorAll(selector);
+                                        newAds.forEach(ad => {
+                                            ad.style.display = 'none';
+                                            console.log('已隐藏动态添加的广告');
+                                        });
+                                    });
+                                }
+                            });
+                        });
+                        
+                        // 配置观察选项
+                        observer.observe(iframeDoc.body, {
+                            childList: true,
+                            subtree: true
+                        });
+                        
+                    } catch (e) {
+                        console.log('无法访问iframe内容，可能是由于跨域限制:', e);
+                        // 跨域情况下无法直接操作iframe内容
+                    }
+                });
+            }
+            
+            // 3. 修改openModal函数，添加广告拦截功能
+            const originalOpenModal = window.openModal;
+            window.openModal = function(url) {
+                console.log('使用增强版openModal打开游戏:', url);
+                
+                // 调用原始函数
+                originalOpenModal(url);
+                
+                // 应用广告拦截措施
+                enhanceIframeSecurity();
+                setupAdRemoval();
+                
+                // 添加全屏按钮点击事件，全屏可以减少看到广告的机会
+                const fullscreenBtn = document.getElementById('fullscreenBtn');
+                if (fullscreenBtn) {
+                    fullscreenBtn.addEventListener('click', function() {
+                        const iframe = document.getElementById('gameFrame');
+                        if (iframe) {
+                            if (iframe.requestFullscreen) {
+                                iframe.requestFullscreen();
+                            } else if (iframe.mozRequestFullScreen) {
+                                iframe.mozRequestFullScreen();
+                            } else if (iframe.webkitRequestFullscreen) {
+                                iframe.webkitRequestFullscreen();
+                            } else if (iframe.msRequestFullscreen) {
+                                iframe.msRequestFullscreen();
+                            }
+                        }
+                    });
+                }
+            };
+            
+            // 初始化
+            enhanceIframeSecurity();
+            setupAdRemoval();
+        });
+    </script>
+</body>
+</html>
