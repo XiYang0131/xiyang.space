@@ -44,6 +44,7 @@
         .game-container {
             aspect-ratio: 16/9;
             max-height: 600px;
+            position: relative;
         }
         
         @media (max-width: 768px) {
@@ -51,6 +52,12 @@
                 aspect-ratio: 4/3;
                 max-height: 400px;
             }
+        }
+        
+        /* 全屏时的样式 */
+        .game-container iframe:fullscreen {
+            width: 100vw;
+            height: 100vh;
         }
     </style>
 </head>
@@ -64,6 +71,41 @@
 
     <main class="container mx-auto px-4 py-8">
         <section class="mb-12">
+            <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg p-6 mb-8">
+                <h1 class="text-3xl md:text-4xl font-bold mb-4 text-apple-blue dark:text-apple-blue">Welcome to PlayHub</h1>
+                <p class="text-lg text-apple-gray-700 dark:text-apple-gray-300 mb-6">Your destination for free online browser games. No downloads, no sign-ups, just pure gaming fun!</p>
+                
+                <!-- 游戏类型导航 - 修改为包含锚点链接和筛选功能 -->
+                <div class="mt-6 mb-4">
+                    <h2 class="text-xl font-bold mb-3 text-apple-green">Browse Games by Category</h2>
+                    <div class="flex flex-wrap gap-2">
+                        <a href="#games-collection" class="px-4 py-2 bg-apple-blue text-white rounded-full hover:bg-apple-blue-dark focus:outline-none focus:ring-2 focus:ring-apple-blue-dark" onclick="filterGames('all'); return false;">All Games</a>
+                        <a href="#games-collection" class="px-4 py-2 bg-apple-green text-white rounded-full hover:bg-apple-green-dark focus:outline-none focus:ring-2 focus:ring-apple-green-dark" onclick="filterGames('action'); return false;">Action & Adventure</a>
+                        <a href="#games-collection" class="px-4 py-2 bg-apple-red text-white rounded-full hover:bg-apple-red-dark focus:outline-none focus:ring-2 focus:ring-apple-red-dark" onclick="filterGames('puzzle'); return false;">Puzzle & Strategy</a>
+                        <a href="#games-collection" class="px-4 py-2 bg-apple-orange text-white rounded-full hover:bg-apple-orange-dark focus:outline-none focus:ring-2 focus:ring-apple-orange-dark" onclick="filterGames('sports'); return false;">Sports & Racing</a>
+                        <a href="#games-collection" class="px-4 py-2 bg-apple-purple text-white rounded-full hover:bg-apple-purple-dark focus:outline-none focus:ring-2 focus:ring-apple-purple-dark" onclick="filterGames('simulation'); return false;">Simulation & Management</a>
+                        <a href="#games-collection" class="px-4 py-2 bg-apple-teal text-white rounded-full hover:bg-apple-teal-dark focus:outline-none focus:ring-2 focus:ring-apple-teal-dark" onclick="filterGames('idle'); return false;">Idle & Clicker</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white dark:bg-apple-gray-900 p-6 rounded-xl shadow-md">
+                    <h2 class="text-xl font-bold text-apple-blue mb-3">100% Free</h2>
+                    <p class="text-apple-gray-700 dark:text-apple-gray-300">All games on PlayHub are completely free to play. No hidden fees, no subscriptions, just pure gaming enjoyment.</p>
+                </div>
+                <div class="bg-white dark:bg-apple-gray-900 p-6 rounded-xl shadow-md">
+                    <h2 class="text-xl font-bold text-apple-green mb-3">No Downloads</h2>
+                    <p class="text-apple-gray-700 dark:text-apple-gray-300">Play instantly in your browser without downloading or installing anything. Just click and start playing!</p>
+                </div>
+                <div class="bg-white dark:bg-apple-gray-900 p-6 rounded-xl shadow-md">
+                    <h2 class="text-xl font-bold text-apple-orange mb-3">Mobile Friendly</h2>
+                    <p class="text-apple-gray-700 dark:text-apple-gray-300">Our games are optimized for both desktop and mobile devices, so you can play anytime, anywhere.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
             <h2 class="text-2xl md:text-3xl font-bold mb-6 text-apple-purple dark:text-apple-teal border-b-2 border-apple-purple dark:border-apple-teal pb-2">Featured Games</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Monster Survivors -->
@@ -72,10 +114,20 @@
                         <h2 class="text-xl font-bold text-apple-blue mb-2">Monster Survivors</h2>
                         <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Survive waves of monsters in this action-packed adventure game!</p>
                     </div>
-                    <div class="game-container w-full">
+                    <div class="relative game-container w-full">
                         <iframe src="https://cloud.onlinegames.io/games/2025/unity/monster-survivors/index-og.html" 
                                 class="w-full h-full border-0" 
-                                allowfullscreen></iframe>
+                                allowfullscreen="true"
+                                allow="fullscreen"
+                                id="game-frame-monster-survivors"></iframe>
+                        
+                        <!-- 全屏按钮 -->
+                        <button onclick="toggleFullscreen('game-frame-monster-survivors')" 
+                                class="absolute bottom-4 right-4 bg-black bg-opacity-60 text-white p-2 rounded-full hover:bg-opacity-80 transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
+                            </svg>
+                        </button>
                     </div>
                     <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
                         <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
@@ -167,19 +219,31 @@
             </div>
         </section>
 
-        <section class="mb-12">
-            <h2 class="text-2xl md:text-3xl font-bold mb-6 text-apple-green dark:text-apple-green border-b-2 border-apple-green dark:border-apple-green pb-2">Popular Games</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <section class="mb-12" id="games-collection">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6 text-apple-green dark:text-apple-green border-b-2 border-apple-green dark:border-apple-green pb-2">Games Collection</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="gamesGrid">
+                <!-- 动作冒险类游戏 -->
                 <!-- Monster Survivors -->
-                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden game-card" data-type="action">
                     <div class="p-4">
                         <h2 class="text-xl font-bold text-apple-green mb-2">Monster Survivors</h2>
                         <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Survive waves of monsters in this action-packed adventure!</p>
                     </div>
-                    <div class="game-container w-full">
+                    <div class="relative game-container w-full">
                         <iframe src="https://cloud.onlinegames.io/games/2025/unity/monster-survivors/index-og.html" 
                                 class="w-full h-full border-0" 
-                                allowfullscreen></iframe>
+                                allowfullscreen="true"
+                                allow="fullscreen"
+                                id="game-frame-monster-survivors"></iframe>
+                        
+                        <!-- 全屏按钮 -->
+                        <button onclick="toggleFullscreen('game-frame-monster-survivors')" 
+                                class="absolute bottom-4 right-4 bg-black bg-opacity-60 text-white p-2 rounded-full hover:bg-opacity-80 transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
+                            </svg>
+                        </button>
                     </div>
                     <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
                         <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
@@ -189,8 +253,119 @@
                     </div>
                 </div>
 
+                <!-- Metroid Fusion -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden game-card" data-type="action">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-orange mb-2">Metroid Fusion</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Explore, battle aliens, and uncover secrets in this classic action-adventure!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://definitelynotblocked.vercel.app/games/metroidfusion/index.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Metroid Fusion is a classic action-adventure game where you play as Samus Aran, a bounty hunter infected by the X parasite. 
+                            Explore the BSL research station, acquire new abilities, and battle the mysterious SA-X in this thrilling sci-fi adventure.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Fray Fight -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden game-card" data-type="action">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-red mb-2">Fray Fight</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Battle in intense arena combat with unique fighters!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://frayfight.com/game/" 
+                                title="Fray Fight" 
+                                scrolling="no" 
+                                allow="autoplay; payment; fullscreen; microphone; clipboard-read; focus-without-user-activation *; screen-wake-lock; gamepad; clipboard-write 'self' https://frayfight.com" 
+                                webkitallowfullscreen="true" 
+                                mozallowfullscreen="true" 
+                                msallowfullscreen="true" 
+                                allowfullscreen="true" 
+                                allowfullscreen 
+                                loading="eager" 
+                                style="border: 0px; background-color: rgb(255, 255, 255); width: 100%; height: 100%;">
+                        </iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Fray Fight is an action-packed arena combat game where you control unique fighters with special abilities. 
+                            Master different fighting styles, defeat opponents, and become the champion of the arena!
+                        </p>
+                        <p class="text-xs text-apple-gray-500 mt-2">
+                            <a href="https://frayfight.com/" target="_blank" class="hover:underline">Fray Fight</a> is Developed by <a href="https://playsaurus.com" target="_blank" class="hover:underline">Playsaurus</a> - an idle game development studio.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Rooftop Snipers 2 -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden game-card" data-type="action">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-teal mb-2">Rooftop Snipers 2</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Battle on rooftops in this hilarious physics-based shooter!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://definitelynotblocked.vercel.app/games/rooftop2/index.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Rooftop Snipers 2 is a chaotic physics-based shooter where you battle opponents on rooftops. 
+                            With wacky characters, unpredictable physics, and fast-paced gameplay, it's perfect for quick 
+                            gaming sessions alone or with friends.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 沙盒与冒险类 -->
+                <!-- Minecraft 1.5.2 -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden game-card" data-type="action">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-green mb-2">Minecraft 1.5.2</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Build, explore, and survive in this classic block world!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://definitelynotblocked.vercel.app/games/mc/index.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Experience the classic Minecraft gameplay right in your browser. Build structures, mine resources, 
+                            and survive the night in this beloved sandbox adventure game.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Pokemon Unbound -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden game-card" data-type="action">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-yellow mb-2">Pokemon Unbound</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Embark on an epic Pokemon adventure in the Borrius region!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://definitelynotblocked.vercel.app/games/pokemonunbound/index.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Pokemon Unbound is a fan-made Pokemon game set in the Borrius region. With challenging gameplay, 
+                            a compelling story, and features like difficulty settings, physical/special split, and all Pokemon up to Gen 7, 
+                            it's considered one of the best Pokemon ROM hacks ever created.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 益智解谜类游戏 -->
                 <!-- Sudoku Challenge -->
-                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden game-card" data-type="puzzle">
                     <div class="p-4">
                         <h2 class="text-xl font-bold text-apple-pink mb-2">Sudoku Challenge</h2>
                         <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Test your logic skills with classic Sudoku puzzles!</p>
@@ -208,153 +383,27 @@
                     </div>
                 </div>
 
-                <!-- Cookie Clicker Pro -->
-                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
+                <!-- Riddle School -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden game-card" data-type="puzzle">
                     <div class="p-4">
-                        <h2 class="text-xl font-bold text-apple-blue mb-2">Cookie Clicker Pro</h2>
-                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Click your way to a cookie empire!</p>
+                        <h2 class="text-xl font-bold text-apple-indigo mb-2">Riddle School</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Escape school in this classic point-and-click adventure!</p>
                     </div>
                     <div class="game-container w-full">
-                        <iframe src="https://cloud.freezenova.com/cookie-clicker-pro.html" 
+                        <iframe src="https://definitelynotblocked.vercel.app/games/riddleschool/riddleschool1/index.html" 
                                 class="w-full h-full border-0" 
                                 allowfullscreen></iframe>
                     </div>
                     <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
                         <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
-                            Start with a simple cookie and build your way to a massive cookie-producing empire. 
-                            Upgrade your production, unlock achievements, and become the ultimate cookie tycoon!
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Basket Random Pro -->
-                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
-                    <div class="p-4">
-                        <h2 class="text-xl font-bold text-apple-orange mb-2">Basket Random Pro</h2>
-                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Test your basketball skills with random challenges!</p>
-                    </div>
-                    <div class="game-container w-full">
-                        <iframe src="https://cloud.freezenova.com/basket-random-pro.html" 
-                                class="w-full h-full border-0" 
-                                allowfullscreen></iframe>
-                    </div>
-                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
-                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
-                            Face unique basketball challenges in this addictive sports game. Each level presents 
-                            a new random setup that will test your timing, accuracy, and strategic thinking.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Survival Karts -->
-                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
-                    <div class="p-4">
-                        <h2 class="text-xl font-bold text-apple-red mb-2">Survival Karts</h2>
-                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Race and survive in this thrilling kart adventure!</p>
-                    </div>
-                    <div class="game-container w-full">
-                        <iframe src="https://cloud.freezenova.com/survival-karts.html" 
-                                class="w-full h-full border-0" 
-                                allowfullscreen></iframe>
-                    </div>
-                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
-                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
-                            Race against time and obstacles in this exciting kart survival game. Navigate through 
-                            challenging tracks, collect power-ups, and outlast your opponents to claim victory.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Checkout Frenzy -->
-                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
-                    <div class="p-4">
-                        <h2 class="text-xl font-bold text-apple-purple mb-2">Checkout Frenzy</h2>
-                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Manage a busy supermarket checkout!</p>
-                    </div>
-                    <div class="game-container w-full">
-                        <iframe src="https://cloud.freezenova.com/checkout-frenzy.html" 
-                                class="w-full h-full border-0" 
-                                allowfullscreen></iframe>
-                    </div>
-                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
-                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
-                            Experience the rush of managing a busy supermarket checkout in this fast-paced time management game. 
-                            Scan items, handle payments, and keep customers happy as the lines grow longer!
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Papa's Burgeria -->
-                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
-                    <div class="p-4">
-                        <h2 class="text-xl font-bold text-apple-teal mb-2">Papa's Burgeria</h2>
-                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Run your own burger restaurant!</p>
-                    </div>
-                    <div class="game-container w-full">
-                        <iframe src="https://cloud.freezenova.com/papas-burgeria.html" 
-                                class="w-full h-full border-0" 
-                                allowfullscreen></iframe>
-                    </div>
-                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
-                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
-                            Take orders, grill patties, and build the perfect burger in this classic restaurant management game. 
-                            Satisfy your customers with perfectly crafted burgers to earn tips and upgrade your restaurant!
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Axis Football League -->
-                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
-                    <div class="p-4">
-                        <h2 class="text-xl font-bold text-apple-indigo mb-2">Axis Football League</h2>
-                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Experience intense football action!</p>
-                    </div>
-                    <div class="game-container w-full">
-                        <iframe src="https://cloud.freezenova.com/axis-football-league.html" 
-                                class="w-full h-full border-0" 
-                                allowfullscreen></iframe>
-                    </div>
-                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
-                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
-                            Lead your team to victory in this exciting football game. Choose your plays, execute perfect passes, 
-                            and score touchdowns to become the champion of the Axis Football League!
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Mr.Mine -->
-                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
-                    <div class="p-4">
-                        <h2 class="text-xl font-bold text-apple-blue mb-2">Mr.Mine</h2>
-                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Dig deep, discover treasures, and build your mining empire!</p>
-                    </div>
-                    <div class="game-container w-full">
-                        <iframe src="https://mrmine.com/game/" 
-                                title="Mr.Mine" 
-                                scrolling="no" 
-                                allow="autoplay; payment; fullscreen; microphone; clipboard-read; focus-without-user-activation *; screen-wake-lock; gamepad; clipboard-write 'self' https://mrmine.com" 
-                                webkitallowfullscreen="true" 
-                                mozallowfullscreen="true" 
-                                msallowfullscreen="true" 
-                                allowfullscreen="true" 
-                                allowfullscreen 
-                                loading="eager" 
-                                style="border: 0px; background-color: rgb(255, 255, 255); width: 100%; height: 100%;">
-                        </iframe>
-                    </div>
-                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
-                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
-                            Mr.Mine is an idle mining game where you dig deeper, discover rare minerals, and build your mining empire. 
-                            Manage miners, upgrade equipment, and uncover the mysteries that lie beneath the surface.
-                        </p>
-                        <p class="text-xs text-apple-gray-500 mt-2">
-                            <a href="https://mrmine.com/" target="_blank" class="hover:underline">Mr.Mine</a> is Developed by <a href="https://playsaurus.com" target="_blank" class="hover:underline">Playsaurus</a> - an idle game development studio.
+                            Riddle School is a popular point-and-click adventure game where you play as Phil, a student trying to escape 
+                            from school. Solve puzzles, find hidden items, and use your wit to break free in this classic Flash game.
                         </p>
                     </div>
                 </div>
 
                 <!-- Poker Quest -->
-                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden game-card" data-type="puzzle">
                     <div class="p-4">
                         <h2 class="text-xl font-bold text-apple-purple mb-2">Poker Quest</h2>
                         <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Blend poker strategy with RPG adventure in this unique card game!</p>
@@ -384,17 +433,134 @@
                     </div>
                 </div>
 
-                <!-- Fray Fight -->
-                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden">
+                <!-- 体育与竞速类游戏 -->
+                <!-- Basket Random Pro -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden game-card" data-type="sports">
                     <div class="p-4">
-                        <h2 class="text-xl font-bold text-apple-red mb-2">Fray Fight</h2>
-                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Battle in intense arena combat with unique fighters!</p>
+                        <h2 class="text-xl font-bold text-apple-orange mb-2">Basket Random Pro</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Test your basketball skills with random challenges!</p>
                     </div>
                     <div class="game-container w-full">
-                        <iframe src="https://frayfight.com/game/" 
-                                title="Fray Fight" 
+                        <iframe src="https://cloud.freezenova.com/basket-random-pro.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Face unique basketball challenges in this addictive sports game. Each level presents 
+                            a new random setup that will test your timing, accuracy, and strategic thinking.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Survival Karts -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden game-card" data-type="sports">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-red mb-2">Survival Karts</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Race and survive in this thrilling kart adventure!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://cloud.freezenova.com/survival-karts.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Race against time and obstacles in this exciting kart survival game. Navigate through 
+                            challenging tracks, collect power-ups, and outlast your opponents to claim victory.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Axis Football League -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden game-card" data-type="sports">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-indigo mb-2">Axis Football League</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Experience intense football action!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://cloud.freezenova.com/axis-football-league.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Lead your team to victory in this exciting football game. Choose your plays, execute perfect passes, 
+                            and score touchdowns to become the champion of the Axis Football League!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 模拟经营类游戏 -->
+                <!-- Checkout Frenzy -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden game-card" data-type="simulation">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-purple mb-2">Checkout Frenzy</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Manage a busy supermarket checkout!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://cloud.freezenova.com/checkout-frenzy.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Experience the rush of managing a busy supermarket checkout in this fast-paced time management game. 
+                            Scan items, handle payments, and keep customers happy as the lines grow longer!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Papa's Burgeria -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden game-card" data-type="simulation">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-teal mb-2">Papa's Burgeria</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Run your own burger restaurant!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://cloud.freezenova.com/papas-burgeria.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Take orders, grill patties, and build the perfect burger in this classic restaurant management game. 
+                            Satisfy your customers with perfectly crafted burgers to earn tips and upgrade your restaurant!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 放置与点击类游戏 -->
+                <!-- Cookie Clicker Pro -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden game-card" data-type="idle">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-blue mb-2">Cookie Clicker Pro</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Click your way to a cookie empire!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://cloud.freezenova.com/cookie-clicker-pro.html" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
+                        <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
+                            Start with a simple cookie and build your way to a massive cookie-producing empire. 
+                            Upgrade your production, unlock achievements, and become the ultimate cookie tycoon!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Mr.Mine -->
+                <div class="bg-white dark:bg-apple-gray-900 rounded-xl shadow-lg overflow-hidden game-card" data-type="idle">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-apple-blue mb-2">Mr.Mine</h2>
+                        <p class="text-apple-gray-700 dark:text-apple-gray-300 mb-4">Dig deep, discover treasures, and build your mining empire!</p>
+                    </div>
+                    <div class="game-container w-full">
+                        <iframe src="https://mrmine.com/game/" 
+                                title="Mr.Mine" 
                                 scrolling="no" 
-                                allow="autoplay; payment; fullscreen; microphone; clipboard-read; focus-without-user-activation *; screen-wake-lock; gamepad; clipboard-write 'self' https://frayfight.com" 
+                                allow="autoplay; payment; fullscreen; microphone; clipboard-read; focus-without-user-activation *; screen-wake-lock; gamepad; clipboard-write 'self' https://mrmine.com" 
                                 webkitallowfullscreen="true" 
                                 mozallowfullscreen="true" 
                                 msallowfullscreen="true" 
@@ -406,11 +572,11 @@
                     </div>
                     <div class="p-4 bg-apple-gray-100 dark:bg-apple-gray-800">
                         <p class="text-sm text-apple-gray-700 dark:text-apple-gray-300">
-                            Fray Fight is an action-packed arena combat game where you control unique fighters with special abilities. 
-                            Master different fighting styles, defeat opponents, and become the champion of the arena!
+                            Mr.Mine is an idle mining game where you dig deeper, discover rare minerals, and build your mining empire. 
+                            Manage miners, upgrade equipment, and uncover the mysteries that lie beneath the surface.
                         </p>
                         <p class="text-xs text-apple-gray-500 mt-2">
-                            <a href="https://frayfight.com/" target="_blank" class="hover:underline">Fray Fight</a> is Developed by <a href="https://playsaurus.com" target="_blank" class="hover:underline">Playsaurus</a> - an idle game development studio.
+                            <a href="https://mrmine.com/" target="_blank" class="hover:underline">Mr.Mine</a> is Developed by <a href="https://playsaurus.com" target="_blank" class="hover:underline">Playsaurus</a> - an idle game development studio.
                         </p>
                     </div>
                 </div>
@@ -432,5 +598,50 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        function filterGames(type) {
+            const gameCards = document.querySelectorAll('.game-card');
+            
+            gameCards.forEach(card => {
+                if (type === 'all' || card.dataset.type === type) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // 滚动到游戏集合部分
+            document.getElementById('games-collection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleFullscreen(frameId) {
+            const iframe = document.getElementById(frameId);
+            
+            if (!document.fullscreenElement) {
+                // 进入全屏
+                if (iframe.requestFullscreen) {
+                    iframe.requestFullscreen();
+                } else if (iframe.webkitRequestFullscreen) { // Safari
+                    iframe.webkitRequestFullscreen();
+                } else if (iframe.msRequestFullscreen) { // IE11
+                    iframe.msRequestFullscreen();
+                } else if (iframe.mozRequestFullScreen) { // Firefox
+                    iframe.mozRequestFullScreen();
+                }
+            } else {
+                // 退出全屏
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                }
+            }
+        }
+    </script>
 </body>
 </html> 
